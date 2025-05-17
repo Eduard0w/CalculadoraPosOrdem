@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>PósOrdem</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+<style>
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: cursive;
+}
+
+body {
+	height: 100vh;
+	width: 100vw;
+	text-align: center;
+	background-color: rgb(40,60,100);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.container{
+	display:flex;
+	flex-direction:column;
+	max-width: 800px;
+	height: 500px;
+	margin: auto;
+	/* background-color: rgb(219, 240, 240); */
+	background-image: linear-gradient(to bottom right, #dbf0f0, #2d6c6c);
+	padding: 0px 20px;
+	justify-content: center;
+	align-items: center;
+	border-radius: 20px;
+	box-shadow: 8px 10px 2px rgb(20, 30, 50);
+}
+
+.text {
+	margin-bottom: 30px;
+	font-weight: bolder;
+}
+
+input{
+	border: none;
+	padding: 5px 15px;
+	font-size: 20px;
+	border-radius: 10px;
+	box-shadow: 1px 1px 5px;
+}
+
+button{
+	background-color: green;
+	border: none;
+	padding: 10px 20px;
+	margin: 20px 0px;
+	border-radius: 10px;
+	box-shadow: 2px 5px 0px rgb(10, 30, 10);
+}
+
+button:hover{
+	background-color: rgb(10, 40, 10);
+	cursor: pointer;
+	color: white;
+	box-shadow: 2px 5px 2px rgb(10, 10, 10);
+}
+
+#resultado{
+	font-size: 25px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+	<div class="text">
+		<h1>Bem-Vindo a calculadora PósOrdem</h1>
+	    <h2>Calculadora Pós-Ordem</h2>
+	</div>	
+    <input type="text" id="expressao" placeholder="Ex: 3 4 +">
+    <button onclick="calcular()">Calcular</button>
+    <p id="resultado"></p>
+</div>
+	
+
+    <script>
+        async function calcular() {
+            const expressao = document.getElementById("expressao").value; //pega valor do input
+            const response = await fetch("http://localhost:8080/api/calcular", { //
+                method: "POST",
+                headers: { "Content-Type": "text/plain" }, //oficializa o dado que esta sendo mandado como uma String
+                body: expressao
+            });
+            const data = await response.json();
+            document.getElementById("resultado").innerText = "Resultado: " + data.resultado;
+            if(!isNaN(data.resultado)){
+            	document.getElementById("resultado").style.color = "green";
+            } else{
+            	document.getElementById("resultado").style.color = "red"
+            }
+        }
+    </script>
+</body>
+</html>
